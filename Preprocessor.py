@@ -301,16 +301,16 @@ if __name__ == "__main__":
 	file = input("Enter input JSON file (in current directory): ")
 	stemdict.importDicts(file)
 	while(True):
-		query = input("Enter a query to test")
+		query = input("Enter a query to test: ")
 		titles, output = stemdict.processQuery(query)
 
 		for url in output:
 			print(titles[url] + " " + url)
 
 		print("\n")
-		cont = input("Do you wish to test another query? <y/n>")
+		cont = input("Do you wish to test another query? <y/n> ")
 
-		if cont == 'y':
+		if cont == 'n':
 			break
 
 
