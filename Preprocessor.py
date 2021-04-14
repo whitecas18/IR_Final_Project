@@ -160,7 +160,7 @@ class Preprocessor:
 	#calculates the cosign similarity for all documents in the collection given a query, then puts the results in an ordered dictionary and returns it
 	def processQuery(self, query):
 		print("\tProcessing Query " + query + "...")
-		start = time.time()
+		# start = time.time()
 		resultDict = {}
 		titleDict = {}
 		queryDict = self.tfidfQuery(query)
@@ -176,7 +176,7 @@ class Preprocessor:
 
 			resultDict[doc] = self.cosSim(queryDict, doc)
 
-		resultDict["time"] = time.time() - start
+		# resultDict["time"] = time.time() - start
 
 		return (titleDict, dict(sorted(resultDict.items(), key = itemgetter(1), reverse = True)[:10]))
 
@@ -273,9 +273,10 @@ if __name__ == "__main__":
 	#stemdict.tokenizeFiles(1,1)
 
 	stemdict = Preprocessor(os.path.dirname(os.path.abspath(__file__)))
-	stemdict.tokenizeJson("wiki.json", 1, 0)
-	stemdict.makeTfidfMatrix()
-	stemdict.exportDicts("bigBoi.json")
+	# stemdict.tokenizeJson("wiki.json", 1, 0)
+	# stemdict.makeTfidfMatrix()
+	# stemdict.exportDicts("bigBoi.json")
+
 	#stemdict.importDicts("result.json")
 	#titles, result = stemdict.processQuery("The Communist Party")
 
@@ -289,6 +290,21 @@ if __name__ == "__main__":
 	#		for doc in resultsDict[query]:
 	#			f.write(query + " " + doc + " " + str(resultsDict[query][doc]) + "\n")
 
+	file = input("Enter input JSON file (in current directory): ")
+	stemdict.importDicts(file)
+	while(True):
+		query = input("Enter a query to test")
+		titles, output = stemdict.processQuery(query)
 
-	print("Done.")
-	print("Finished!")
+		for url in output:
+			print(titles[url] + " " + url)
+
+		print("\n")
+		cont = input("Do you wish to test another query? <y/n>")
+
+		if cont == 'y':
+			break
+
+
+	# print("Done.")
+	# print("Finished!")
