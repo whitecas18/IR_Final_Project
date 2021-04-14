@@ -155,7 +155,14 @@ class Preprocessor:
 			if word in self.docDict[doc]:
 				top += (queryDict[word] * self.docDict[doc][word])
 
-		return top / (queryLength * docLength)
+		#print(top)
+		#print(queryLength)
+		#print(docLength)
+		try:
+			return top / (queryLength * docLength)
+		except ZeroDivisionError:
+			#print("division by zero")
+			return 0
 
 	#calculates the cosign similarity for all documents in the collection given a query, then puts the results in an ordered dictionary and returns it
 	def processQuery(self, query):
@@ -167,7 +174,8 @@ class Preprocessor:
 
 		if self.isCollectionFromJson == True:
 			for doc in self.docDict:
-
+				if doc == "TITLE_NAME":
+					continue
 				#resultDict[doc] = {"cossim": self.cosSim(queryDict, doc), "title": self.docDict[doc]["TITLE_NAME"]}
 				resultDict[doc] = self.cosSim(queryDict, doc)
 				titleDict[doc] = self.docDict[doc]["TITLE_NAME"]
